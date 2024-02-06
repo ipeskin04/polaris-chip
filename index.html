@@ -38,16 +38,13 @@
 <h2>Controls</h2>
 <div class="control-wrapper">
   <button class="duplicate">Clone Card</button>
-  <button id="changetitle">Change title</button>
-  <button id="changeimage">Change image</button>
-  <button id="changebg">Change background</button>
-  <button id="delete">Delete card</button>
+  <button class="changetitle">Change title</button>
+  <button class="changeimage">Change image</button>
+  <button class="changebg">Change background</button>
+  <button class="delete">Delete card</button>
 
   <h1>my-card</h1>
   <div class="card-list">
-
-
-
   
 
   <my-card title="Italian lanscape" buttonLink="https://www.britannica.com/place/Italy"></my-card>
@@ -71,29 +68,36 @@
   }
 });
 
-document.querySelector('#changetitle').addEventListener('click', function(e) {
-  document.querySelector('.card-title').innerHTML = "<p>Positano</p>";
+document.querySelector('.changetitle').addEventListener('click', function(e) {
+  const newTitle = document.querySelector("my-card");
+  newTitle.title = "This is a really great title";
 })
 
-document.querySelector('#changeimage').addEventListener('click', function(e) {
-  document.querySelector('.card-image').src = "https://www.travelawaits.com/wp-content/uploads/2021/04/beautiful-positano-italy-on025309.jpg?fit=2000%2C2000";
+document.querySelector('.changeimage').addEventListener('click', function(e) {
+  const newImage = document.querySelector("my-card");
+  newImage.imageURL = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Italy_regions.png/800px-Italy_regions.png"
 })
 
-document.querySelector('#changebg').addEventListener('click', function(e) {
-    const link = document.querySelector('.card');
-    if (link.classList.contains('change-color')) {
-      link.classList.remove('change-color');   
-    } else {
-      link.classList.add('change-color');     
-    }
+document.querySelector('.changebg').addEventListener('click', function(e) {
+  const myCard = document.querySelector("my-card");
+  const shadowroot = myCard.shadowRoot;
+
+  console.log(myCard.shadowRoot);
+  const card = shadowroot.querySelector('.card')
+  console.log(card)
+  card.classList.toggle('change-color')
+
   })
 
-document.querySelector('#delete').addEventListener('click', function(e) { 
-  console.log(document.querySelectorAll('.card').length);
-  if (document.querySelectorAll('.card').length === 1) {
+document.querySelector('.delete').addEventListener('click', function(e) { 
+  const cards = document.querySelectorAll('my-card');
+
+  console.log(cards.length);
+  if (cards.length === 1) {
     // don't do anything
   } else {
-    document.querySelector('.card').remove();
+    cards[cards.length - 1].remove();
+
   }
 });
   </script>

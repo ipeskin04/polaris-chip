@@ -24,7 +24,7 @@ export class MyCard extends LitElement {
     return css`
       :root, html, body {
   font-size: 16px; 
-  --basic-color: #9999eb;
+  --basic-color: #000;
 }
 h1 {
   font-size: 2em;
@@ -37,7 +37,7 @@ h3,h4 {
 }
 
 .card.change-color {
-  background-color: var(--basic-color);
+  background-color: #000;
 }
 
 #cardlist {
@@ -89,7 +89,7 @@ ul {
 
   render() {
     return html`
-<div class="card">
+<div class="card" >
     <img class="card-image" alt="Landscape" src="${this.imageURL}" />
     <div class="card-text">
       <h3 class="card-title">${this.title}</h3>

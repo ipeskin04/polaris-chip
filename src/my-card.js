@@ -16,16 +16,43 @@ export class MyCard extends LitElement {
     super();
     this.title = "My card";
     this.buttonLink = '#';
-    this.description = "This is a beautiful image of Italy.";
+    this.description = "This is a beautiful picture of Italy. This is a beautiful picture of Italy. This is a beautiful picture of Italy. This is a beautiful picture of Italy. This is a beautiful picture of Italy.";
     this.imageURL = "https://images.unsplash.com/photo-1543429853-e028e42251c2?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8aXRhbGlhbiUyMGxhbmRzY2FwZXxlbnwwfHwwfHx8MA%3D%3D";
+    this.fancy = false;
   }
 
   static get styles() {
     return css`
       :root, html, body {
-  font-size: 16px; 
+    font-size: 16px; 
   --basic-color: #000;
+      }
+  :host([fancy]) {
+  display: block;
+  width: 560px;
+  background-color: pink;
+  border: 2px solid fuchsia;
+  box-shadow: 10px 5px 5px red;
 }
+
+details summary {
+    text-align: left;
+    font-size: 20px;
+    padding: 8px 0;
+  }
+
+  details[open] summary {
+    font-weight: bold;
+  }
+  
+  details div {
+    border: 2px solid black;
+    text-align: left;
+    padding: 8px;
+    height: 70px;
+    overflow: auto;
+  }
+
 h1 {
   font-size: 2em;
   margin: 0;
@@ -87,6 +114,16 @@ ul {
   }
 
 
+  openChanged(e) {
+    console.log(e.newState);
+    if (e.newState === "open") {
+      this.fancy = true;
+    }
+    else {
+      this.fancy = false;
+    }
+  }
+
   render() {
     return html`
 <div class="card" >
@@ -95,7 +132,12 @@ ul {
       <h3 class="card-title">${this.title}</h3>
       <div class="card-details">
         <p>
-          ${this.description}
+        <details ?open="${this.fancy}" @toggle="${this.openChanged}">
+        <summary>Description</summary>
+          <div>
+          <slot>${this.description}</slot>
+          </div>
+          </details>
         </p>
         <h4>Click below for more details</h4>
         <ul class="links">
@@ -116,6 +158,7 @@ ul {
       buttonLink: { type: String },
       imageURL: { type: String },
       description: {type: String },
+      fancy: { type: Boolean, reflect: true },
     };
   }
 }

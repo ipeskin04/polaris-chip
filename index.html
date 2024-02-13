@@ -24,82 +24,26 @@
 </head>
 
 <body>
-  <h1>polaris-chip</h1>
-  <!-- this is going to do whatever the tag's defaults are -->
-  <polaris-chip title="News of Record" link="https://psu.edu"></polaris-chip>
-  <polaris-chip title="Faculty and Staff"></polaris-chip>
-  <polaris-chip title="Sports"></polaris-chip>
-  <polaris-chip title="Grants and Donations"></polaris-chip>
-
-  <!-- this is going to take the tag and change the title -->
-  <!-- <polaris-chip title="Cool"></polaris-chip> --> 
-
-  <h1>My card</h1>
-<h2>Controls</h2>
-<div class="control-wrapper">
-  <button class="duplicate">Clone Card</button>
-  <button class="changetitle">Change title</button>
-  <button class="changeimage">Change image</button>
-  <button class="changebg">Change background</button>
-  <button class="delete">Delete card</button>
-
-  <h1>my-card</h1>
-  <div class="card-list">
-  
-
-  <my-card fancy title="Italian lanscape" buttonLink="https://www.britannica.com/place/Italy"></my-card>
-  <my-card title="Card number 2" buttonLink="https://www.britannica.com/place/Italy"></my-card>
-  <my-card title="The link is different" buttonLink="https://psu.edu"></my-card>
-  <my-card title="Cooler image" imageURL="https://media.istockphoto.com/id/908964390/photo/oleander-flowers-and-villa-monastero-in-background-lake-como-varenna.jpg?s=612x612&w=0&k=20&c=L0LNcVgsks76ZfJIiNIrqK7Dnp8B40-uxjIShFHwoiY="></my-card>
-  <my-card title="Different description" description="Positano is a gorgeous village on the Amalfi Coast. There are many shops, restaurants, hotels, and boutiques in Positano. It is a literal paradise!"></my-card>
-  <my-card title="Fresh Prince" description="This is will Smith" imageURL="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRPgSRgEYJ3lY8Ky8wNqfoJqWe2U2VMe-RIKbO_0HSXGj5sHA-_"></my-card>
-
 </div>
+
+    <h1>Counter</h1>
+    <div class="counter-card">
+      <counter-app number=16 button1="-" button2="+" min="10" max="25"></counter-app>
+    </div>
+
 
   <!-- this is what is bringing in the definition for this tag -->
   <script type="module" src="./src/polaris-chip.js"></script>
   <script type="module" src="./src/my-card.js"></script>
+  <script type="module" src="./src/counter-card.js"></script>
+
   
   <script>
-    document.querySelector('.duplicate').addEventListener('click', function(event) {
-  if (document.querySelectorAll('my-card').length < 10) {
-    const newCard = document.querySelector('my-card').cloneNode(true);
-  document.querySelector('.card-list').appendChild(newCard);
+    function incrementCounter() {
+    var counterElement = document.getElementById('button2');
+    var currentCount = parseInt(counterElement.innerText);
+    counterElement.innerText = number + 1;
   }
-});
-
-document.querySelector('.changetitle').addEventListener('click', function(e) {
-  const newTitle = document.querySelector("my-card");
-  newTitle.title = "This is a really great title";
-})
-
-document.querySelector('.changeimage').addEventListener('click', function(e) {
-  const newImage = document.querySelector("my-card");
-  newImage.imageURL = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Italy_regions.png/800px-Italy_regions.png"
-})
-
-document.querySelector('.changebg').addEventListener('click', function(e) {
-  const myCard = document.querySelector("my-card");
-  const shadowroot = myCard.shadowRoot;
-
-  console.log(myCard.shadowRoot);
-  const card = shadowroot.querySelector('.card')
-  console.log(card)
-  card.classList.toggle('change-color')
-
-  })
-
-document.querySelector('.delete').addEventListener('click', function(e) { 
-  const cards = document.querySelectorAll('my-card');
-
-  console.log(cards.length);
-  if (cards.length === 1) {
-    // don't do anything
-  } else {
-    cards[cards.length - 1].remove();
-
-  }
-});
   </script>
 </body>
 

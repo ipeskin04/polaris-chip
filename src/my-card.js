@@ -1,4 +1,5 @@
 import { LitElement, html, css } from 'lit';
+import "@lrnwebcomponents/meme-maker/meme-maker.js";
 
 /**
  * Now it's your turn. Here's what we need to try and do
@@ -49,7 +50,7 @@ details summary {
     border: 2px solid black;
     text-align: left;
     padding: 8px;
-    height: 70px;
+    height: 50px;
     overflow: auto;
   }
 
@@ -127,7 +128,8 @@ ul {
   render() {
     return html`
 <div class="card" >
-    <img class="card-image" alt="Landscape" src="${this.imageURL}" />
+    <meme-maker alt="Landscape" image-url="${this.imageURL}" top-text="This is" bottom-text="landscape" class="card-image">
+    </meme-maker>
     <div class="card-text">
       <h3 class="card-title">${this.title}</h3>
       <div class="card-details">

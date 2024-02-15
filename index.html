@@ -28,6 +28,7 @@
 
     <h1>Counter</h1>
     <div class="counter-card">
+      <counter-app></counter-app>
       <counter-app number=16 button1="-" button2="+" min="10" max="25"></counter-app>
     </div>
 
@@ -38,12 +39,10 @@
   <script type="module" src="./src/counter-card.js"></script>
 
   
+
+
   <script>
-    function incrementCounter() {
-    var counterElement = document.getElementById('button2');
-    var currentCount = parseInt(counterElement.innerText);
-    counterElement.innerText = number + 1;
-  }
+    
   </script>
 </body>
 

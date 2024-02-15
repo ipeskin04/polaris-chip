@@ -50,6 +50,7 @@ export class PolarisChip extends LitElement {
         display: inline-flex;
       }
 
+
       span {
         background-color: orange;
         color: black;

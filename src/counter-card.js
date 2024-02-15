@@ -9,16 +9,33 @@ export class Counter extends LitElement {
   constructor() {
     super();
     this.title = "Counter";
-    this.number = 10;
-    this.button1 = '#';
-    this.button2 = '#';
+    this.number = 0;
+    this.button1 = '-';
+    this.button2 = '+';
+    this.min = 0;
+    this.max = 100;
   }
 
   static get styles() {
     return css`
       :root, html, body {
-    font-size: 16px; 
-  --basic-color: #000;
+        font-size: 16px; 
+      }
+      :host([number="25"]){
+        color: orange;
+      }
+      :host([number="10"]) .counter-card{
+        color: blue;
+      }
+      :host([number="18"]) .counter-card{
+        color: purple;
+      }
+      :host([number="21"]) .counter-card{
+        color: yellow;
+      }
+      
+      confetti-container{
+        width: 150px;
       }
 
   .counter-card {
@@ -50,22 +67,52 @@ export class Counter extends LitElement {
   `
 }
 
+increment(){
+  if (this.number < this.max)
+    this.number++;
+}
+
+decrement(){
+  if (this.number > this.min)
+  this.number--;
+}
+
+updated(changedProperties) {
+  if (changedProperties.has('number') && this.number == 21) {
+    this.makeItRain();
+  }
+}
+
+makeItRain() {
+  import("@lrnwebcomponents/multiple-choice/lib/confetti-container.js").then(
+    (module) => {
+      setTimeout(() => {
+        this.shadowRoot.querySelector("#confetti").setAttribute("popped", "");
+      }, 0);
+    }
+  );
+}
+
     render() {
     return html`
+    <confetti-container id="confetti">
     <div class="counter-card">
         <p class="main-number">${this.number}</p>
-        <button class="button1">${this.button1}</button>
-        <button class="button2">${this.button2}</button>
+        <button class="button1" @click="${this.decrement}">${this.button1}</button>
+        <button class="button2" @click="${this.increment}">${this.button2}</button>
     </div>
+    </confetti-container>
     `;
 
   }
 
   static get properties() {
     return {
-      number: { type: Number},
+      number: { type: Number, reflect: true},
       button1: { type: String },
       button2: {type: String },
+      min: {type: String },
+      max: {type: String },
     };
   }
 

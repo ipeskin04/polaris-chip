@@ -12,18 +12,43 @@ export class Alert extends LitElement {
     this.message = "This is a default message.";
     this.sticky = false;
     this.opened = true;
+    if (localStorage.getItem('campus-alert-opened-state') == "false"){
+      this.opened = false;
+
+    }
     this.date = '';
   }
 
   static get styles() {
     return css`
+
       .sticky{
         position: sticky;
         top: 0;
         z-index: 100;
         opacity: 1.0;
       }
-      :host([date="Aug 12, 2023"]){
+
+      .alert-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: lightblue;
+        width: 100%;
+        margin-bottom: 8px;
+      }
+
+      .message-wrap {
+        background-color: white;
+        transform: skew(20deg);
+        
+        text-align: center;
+        width: 50%;
+        height: 100%;
+        
+      }
+
+      :host([date]){
         color: black;
 
       }
@@ -32,48 +57,77 @@ export class Alert extends LitElement {
         font-size: 1em;
         display: block;
         padding: 16px;
-        margin: 2px;
+        width: 100%;
       }
 
-    .message {
-    font-size: 20px;
-    color: white;
-  }
+      .message {
+        font-size: 20px;
+        color: white;
+        transform: skew(-20deg);
+      }
+
+      .date {
+        transform: skew(0deg);
+        width: 15%;
+        font-weight: bold;
+        
+      }
+
+      .button-wrapper {
+        width: 15%;
+      }
+
+      button {
+        font-weight: bold;
+        float: right;
+        padding: 10px;
+        margin: 4px;
+    }
 
     .closed-toggle-button {
       display: flex;
       align-items: center;
-      padding: 30px;
+      padding: 10px;
       font-size: 30px;
-      background-color: yellow;
+      
     }
+
+    
     
     .closedContainer {
       display: flex;
       align-items: center;
       justify-content: center;
-
       width: 100%;
       height: 100px;
+      background-color: lightblue;
     }
 
   `;
   }
 
   toggleAlert() { 
-  this.opened =!this.opened; 
+      this.opened =!this.opened; 
+      localStorage.setItem("campus-alert-opened-state", this.opened);
     } 
+
+    
 
     openedView(color){
         return html `
-        <div class="openedContainer ${(this.sticky) ? "sticky" : ""}">
-        <div class="campus-alert " style="background-color:${color}">
-        <p class="message">${this.message}</p>
-        <p class="date">${this.date}</p>
-        <button @click="${this.toggleAlert}">Close</button>
-        <slot></slot>
+        <div class="alert-wrapper ${(this.sticky) ? "sticky" : ""}">
+          <div class="date">${this.date}</div>
+
+          <div class="message-wrap">
+            <div class="campus-alert " style="background-color:${color}">
+             <div class="message"><svg xmlns="http://www.w3.org/2000/svg" style="height: 30px; width: 30px; align-items: center;" viewBox="0 0 24 24"><title>alert-circle-outline</title><path d="M11,15H13V17H11V15M11,7H13V13H11V7M12,2C6.47,2 2,6.5 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20Z" /></svg>
+               ${this.message} </div>
+              </div>
+          </div>
+          <div class="button-wrapper">
+            <button @click="${this.toggleAlert}">X Close</button>
+          </div>
         </div>
-    </div>
         `;
     }
 
@@ -84,8 +138,8 @@ export class Alert extends LitElement {
         <div class="closedContainer ${(this.sticky) ? "sticky" : ""}">
           <div class ="closed-toggle-button" @click="${this.toggleAlert}">
             <svg xmlns="http://www.w3.org/2000/svg" style="height: 50px; width: 50px;" viewBox="0 0 24 24"><title>alert-circle-outline</title><path d="M11,15H13V17H11V15M11,7H13V13H11V7M12,2C6.47,2 2,6.5 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20Z" /></svg>
-            <svg xmlns="http://www.w3.org/2000/svg" style="height: 50px; width: 50px;" viewBox="0 0 24 24"><title>chevron-down</title><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" /></svg>
             Alert!
+            <svg xmlns="http://www.w3.org/2000/svg" style="height: 50px; width: 50px;" viewBox="0 0 24 24"><title>chevron-down</title><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" /></svg>
           </div>
         </div>
         `;

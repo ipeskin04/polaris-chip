@@ -25,7 +25,7 @@ export class Alert extends LitElement {
       .sticky{
         position: sticky;
         top: 0;
-        z-index: 100;
+        z-index: 9999;
         opacity: 1.0;
       }
 

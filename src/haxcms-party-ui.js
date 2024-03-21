@@ -10,7 +10,9 @@ export class PartyUI extends DDD {
 
     constructor(){
         super();
-        this.userArray = [""];
+        this.userArray = [];
+        this.maxUsers = 4;
+        this.tempUser = "";
     }
 
   static get styles() {
@@ -33,11 +35,11 @@ export class PartyUI extends DDD {
         padding: 16px;
         border: 2px;
         margin: 8px;
-        height: 500px;
+        height: 300px;
         width: 500px;
       }
 
-      .user-wrapper {
+      .characters-wrapper {
         padding: 20px;
         width: 350px;
         display: flex;
@@ -81,21 +83,42 @@ export class PartyUI extends DDD {
       .save-button{
         color: green;
       }
+
+      .bar{
+        height: 100px;
+        width: 4px;
+        background-color: black;
+        display: flex;
+      }
+
     `];
   }
 
+
   updateName(event)
   {
-    this.user = event.target.value;
-    this.userArray[this.userArray.length - 1] = event.target.value;
+    this.tempUser = event.target.value;
+
   }
 
   addUser(event){
-    this.userArray[this.userArray.length - 1];
-    this.shadowRoot.querySelector('.text-input').value = "";
-    this.userArray.push("");
+    if (this.userArray.length < this.maxUsers) {
+      this.userArray.push(this.tempUser);
+      this.shadowRoot.querySelector('.text-input').value = "";
+      this.requestUpdate();
   }
-  
+
+
+}
+
+deleteUser() {
+
+  if (this.userArray.length > 0) {
+      this.userArray.pop();
+  }
+
+  this.requestUpdate();
+}
 
   characterView(name){
     // console.log(name + " is running")
@@ -109,21 +132,26 @@ export class PartyUI extends DDD {
     
     return html`
     <div class="party-ui-wrapper">
-        <div class="user-wrapper"></div>
-        <div class="user"></div>
-        <input class="text-input" type="text" value=${this.user} @input=${this.updateName}>
-        <button id="add-user-button"  @click="${this.addUser}">Add User</button>
-        <div class="usernames-wrapper">
+      <div class="usernames-wrapper">
+          <input class="text-input" type="text" value=${this.user} @input=${this.updateName}>
+          <button id="add-user-button" @click="${this.addUser}" ?disabled="${this.userArray.length >= this.maxUsers}">Add User</button>
       </div>
-      <div class="save-wrapper"></div>
-
-
-      ${this.userArray.map(element => 
+      <div class="characters-wrapper">
+          ${this.userArray.map(element => 
             this.characterView(element)
-      )}
+          )}
 
+        <div class="bar"></div>
+        ${this.characterView(this.tempUser)}
+
+        </div>
+
+          <div class="user"></div>
+      <div class="save-wrapper"></div>
         <button id="save-button">Save</button>
-      <button id="delete-button">Delete</button>
+        <button id="delete-button" @click="${this.deleteUser}">Delete</button>
+        </div>
+      </div>
     </div>
     `;
   }
@@ -133,7 +161,9 @@ export class PartyUI extends DDD {
       ...super.properties,
       title: { type: String },
       user: { type: String, reflect: true},
-      userArray: {type: Array, reflect: true},
+      userArray: { type: Array, reflect: true},
+      maxUsers: { type: Number},
+      tempUser: { type: String, reflect: true},
     }
   }
 }

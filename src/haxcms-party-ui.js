@@ -173,10 +173,25 @@ deleteUser() {
 
   characterView(name){
     // console.log(name + " is running")
+    const hatList = [
+      "bunny",
+      "coffee",
+      "construction",
+      "cowboy",
+      "education",
+      "knight",
+      "ninja",
+      "party",
+      "pirate",
+      "watermelon",
+    ];
+
+    let number = name.charCodeAt(0) % hatList.length;
+    
 
     return html`
     <div class="vertical-wrapper">
-        <rpg-character id="rpg" seed= ${name} style= "height: 100px; width: 100px;"></rpg-character>
+        <rpg-character id="rpg" hat=${hatList[number]} seed= ${name} style= "height: 100px; width: 100px;"></rpg-character>
         <div class="user-name-text">${name}</div>
       </div>
     `;

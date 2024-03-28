@@ -24,6 +24,8 @@ export class PartyUI extends DDD {
         display: block;
 
       }
+
+      
       
       .my-div {
         padding: var(--ddd-spacing-5);
@@ -52,6 +54,8 @@ export class PartyUI extends DDD {
         margin: 8px;
         height: 400px;
         width: 700px;
+        border: var(--ddd-border-lg);
+        border-color: var(--ddd-theme-default-navy40);
       }
 
       .characters-wrapper {
@@ -123,7 +127,7 @@ export class PartyUI extends DDD {
             flex-direction: column;
             background-color: var(--ddd-theme-default-potential0);
             border: var(--ddd-border-lg);
-            color: var(--ddd-theme-default-keystoneYellow);
+            color: var(--ddd-theme-default-nittanyNavy);
             
           }
 
@@ -138,7 +142,9 @@ export class PartyUI extends DDD {
         }
 
     `];
+
   }
+
 
 
   updateName(event)
@@ -160,6 +166,11 @@ export class PartyUI extends DDD {
 }
 
 
+}
+
+saveParty() {
+  this.makeItRain();
+  alert(`Saving party with the following: ${this.userArray.join(', ')}`);
 }
 
 deleteUser() {
@@ -203,7 +214,7 @@ deleteUser() {
     <div class="everything-wrapper">
     <div class="party-ui-wrapper">
       <div class="usernames-wrapper">
-          <input class="text-input" type="text" value=${this.user} @input=${this.updateName} @keydown=${this.handleInput}>
+          <input class="text-input" type="text" value=${this.user} @input=${this.updateName} @keyup="${this.handleInput}">
           <button id="add-user-button" @click="${this.addUser}" ?disabled="${this.userArray.length >= this.maxUsers}">Add User</button>
       </div>
       <confetti-container id="confetti">
@@ -216,12 +227,12 @@ deleteUser() {
         </div>
         </confetti-container>
 
-          <div class="user"></div>
+        <div class="user"></div>
           
 
       <div class="save-wrapper"></div>
     
-        <button id="save-button" @click="${this.makeItRain}" ?disabled="${this.userArray.length === 0}">Save</button>
+        <button id="save-button" @click="${this.saveParty}" ?disabled="${this.userArray.length === 0}">Save</button>
         <button id="delete-button" @click="${this.deleteUser}" ?disabled="${this.userArray.length === 0}">Delete</button>
         <!-- </div>
       </div> -->
@@ -241,19 +252,22 @@ deleteUser() {
   }
 
   handleInput(event) {
-    const inputValue = event.target.value;
+    var userInput = event.target.value;
+    userInput = userInput.slice(0, 10); // Limit to 10 characters
 
-    if(inputValue.length > -1){
+    const invalidCharacter = userInput.match(/[^a-z0-9]/i)
+    if (invalidCharacter) {
+      alert(`The character "${invalidCharacter[0]}" is not allowed.`);
+      userInput = userInput.replace(invalidCharacter[0], '');
+      this.sideBarVisible = false;
+    } else {
       this.sideBarVisible = true;
     }
-    else{
-      this.sideBarVisible = false;
-    }
-
-    // Remove any characters that are not lowercase letters or numbers
-    const sanitizedValue = inputValue.replace(/[^a-z0-9]/g, "");
-    event.target.value = sanitizedValue.slice(0, 10); // Limit to 10 characters
+    this.tempUser = userInput;
+    event.target.value = this.tempUser;
   }
+
+  
 
   makeItRain() {
     import("@lrnwebcomponents/multiple-choice/lib/confetti-container.js").then(

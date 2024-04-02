@@ -24,85 +24,76 @@ export class PartyUI extends DDD {
         display: block;
 
       }
-
-      
-      
+         
       .my-div {
-        padding: var(--ddd-spacing-5);
+        padding: var(--ddd-spacing-4);
         margin: var(--ddd-spacing-2) var(--ddd-spacing-0);
-        color: var(--ddd-theme-default-keystoneYellow);
       }
 
       .everything-wrapper {
         display: inline-flex;
         flex-direction: row;
-        padding: 8px;
-        margin: 8px;
+        padding: var(--ddd-spacing-4);
+        margin: var(--ddd-spacing-2);
       }
 
       .sidebar {
         display: flex;
-        width: 200px;
+        width: var(--ddd-spacing-2);
       }
 
       .party-ui-wrapper {
         text-align: center;
         display: block;
         background-color: var(--ddd-theme-default-beaver70);
-        padding: 16px;
-        border: 2px;
-        margin: 8px;
-        height: 400px;
-        width: 700px;
+        padding: var(--ddd-spacing-4);
+        margin: var(--ddd-spacing-2);
+        height: var(--party-ui-party-container-max-height, 340px);
+        width: var(--party-ui-party-container-max-width, 700px);
         border: var(--ddd-border-lg);
         border-color: var(--ddd-theme-default-navy40);
       }
 
       .characters-wrapper {
-        padding: 20px;
+        padding: var(--ddd-spacing-4);
         width: 350px;
         display: flex;
         margin: auto;
-        margin-bottom: 10px;
         justify-content: center;
         align-items: center;
-        border: 2px;
+        border: var(--ddd-spacing-4);
+        color: var(--ddd-theme-default-slateMaxLight);
       }
 
       .user {
-        color: white;
         font-size: 30px;
         text-align: center;
-        padding: 0px;
         width: 50px;
       }
 
       .add-user-button{
-        color: blue;
         font-size: 20px;
         font-family: "Press Start 2P", system-ui;
       }
 
       .delete-button{
-        color: green;
         font-family: "Press Start 2P", system-ui;
       }
 
       .save-wrapper{
-        padding: 20px;
-        width: 250px;
+        padding: var(--ddd-spacing-2);
+        width: var(--party-ui-party-container-max-width, 250px);
         display: flex;
         flex-direction: column;
         margin: auto;
-        margin-bottom: 20px;
+        margin-bottom: var(--ddd-spacing-4);
         justify-content: center;
         align-items: center;
-        border: 2px;
+        border: var(--ddd-spacing-2);
 
       }
 
       .save-button{
-        color: green;
         font-family: "Press Start 2P", system-ui;
       }
 
@@ -112,8 +103,9 @@ export class PartyUI extends DDD {
         color: var(--ddd-theme-default-black);
         width: 95%;
         margin: auto;
-        padding: 20px;
+        margin-top: var(--ddd-spacing-4);
         align-items: center;
+        justify-content: center;
         font-weight: var(--ddd-font-primary-medium);
         margin: auto;
       }
@@ -133,10 +125,12 @@ export class PartyUI extends DDD {
 
         rpg-character
         {
-          max-width: 100px;
-          max-height: 100px;
-          padding: 8px;
-          margin: 8px;
+          max-width: var(--party-ui-party-container-max-width, 100px);
+          max-height: var(--party-ui-party-container-max-height, 700px);
+          padding: var(--ddd-spacing-4);
+          margin-bottom: var(--ddd-spacing-8);
+          margin-left: var(--ddd-spacing-4);
+          margin-right: var(--ddd-spacing-4);
           height:100%;
           width:100%;
         }
@@ -170,7 +164,7 @@ export class PartyUI extends DDD {
 
 saveParty() {
   this.makeItRain();
-  alert(`Saving party with the following: ${this.userArray.join(', ')}`);
+  alert(`Saved party with the following: ${this.userArray.join(', ')}`);
 }
 
 deleteUser() {
@@ -255,7 +249,7 @@ deleteUser() {
     var userInput = event.target.value;
     userInput = userInput.slice(0, 10); // Limit to 10 characters
 
-    const invalidCharacter = userInput.match(/[^a-z0-9]/i)
+    const invalidCharacter = userInput.match(/[^a-z0-9]/g)
     if (invalidCharacter) {
       alert(`The character "${invalidCharacter[0]}" is not allowed.`);
       userInput = userInput.replace(invalidCharacter[0], '');
